@@ -6,7 +6,6 @@ pragma solidity ^0.8.0;
  * @dev Implements a decentralized identity system on the CELO blockchain.
  */
 contract DecentralizedIdentity {
-
     /**
      * @dev Struct to represent identity information.
      */
@@ -17,7 +16,7 @@ contract DecentralizedIdentity {
         address owner;
     }
 
-    // Mapping to store identities with their corresponding Ethereum addresses
+    // Mapping to store identities with their corresponding  addresses
     mapping(address => Identity) public identities;
     // Mapping to store the order in which identities were created
     mapping(uint => address) public identitiesByIndex;
@@ -43,7 +42,7 @@ contract DecentralizedIdentity {
     /**
      * @dev Modifier to check if the caller has a valid identity.
      */
-    modifier hasValidIdentity() {
+    modifier onlyValidIdentity {
         require(hasIdentity[msg.sender], "Identity does not exist");
         _;
     }
@@ -84,11 +83,20 @@ contract DecentralizedIdentity {
     /**
      * @dev Function to revoke access and delete identity.
      */
-    function revokeAccess() external hasValidIdentity {
+    function revokeAccess() external onlyValidIdentity {
         delete identities[msg.sender];
         hasIdentity[msg.sender] = false;
 
         emit AccessRevoked(msg.sender);
+    }
+
+    /**
+     * @dev Function to check if an address has a valid identity.
+     * @param _owner The address to check.
+     * @return true if the address has a valid identity, false otherwise.
+     */
+    function hasValidIdentity(address _owner) external view returns (bool) {
+        return hasIdentity[_owner];
     }
 
     /**
