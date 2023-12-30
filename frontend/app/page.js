@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import IdentityForm from '../components/IdentityForm';
-import IdentityList from '../components/IdentityList';
-import Layout from '../components/Layout';
+import IdentityForm from './components/IdentityForm';
+import IdentityList from './components/IdentityList';
+import Layout from './components/Layout';
 
 export default function Home() {
   const [identities, setIdentities] = useState([]);
