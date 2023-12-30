@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import IdentityForm from '../components/IdentityForm';
