@@ -18,7 +18,6 @@ const StyledContainer = styled(Container)`
   margin-top: 20px;
 `;
 
-
 export default function RootLayout({ children }) {
   return (
     <>
