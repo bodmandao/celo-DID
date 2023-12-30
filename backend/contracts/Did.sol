@@ -117,17 +117,22 @@ contract DecentralizedIdentity {
      * @return allIdentities An array containing all valid identity addresses.
      */
     function getAllIdentities() external view returns (address[] memory) {
-        address[] memory allIdentities = new address[](block.number - 1);
-        uint index = 0;
+    address[] memory allIdentities = new address[](block.number - 1);
+    uint index = 0;
 
-        for (uint i = 1; i < block.number; i++) {
-            address identityOwner = identitiesByIndex[i];
-            if (identities[identityOwner].exists) {
-                allIdentities[index] = identityOwner;
-                index++;
-            }
+    for (uint i = 1; i < block.number; i++) {
+        address identityOwner = identitiesByIndex[i];
+        if (identities[identityOwner].exists) {
+            allIdentities[index] = identityOwner;
+            index++;
         }
-
-        return allIdentities;
     }
+
+    // Resize the array to the actual number of valid identities
+    assembly {
+        mstore(allIdentities, index)
+    }
+
+    return allIdentities;
+}
 }
