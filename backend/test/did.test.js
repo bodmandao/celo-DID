@@ -1,5 +1,5 @@
-const { expect } = require("chai");
 const { ethers } = require('hardhat')
+const { expect } = require("chai");
 
 describe("DecentralizedIdentity", function () {
   let DecentralizedIdentity;
@@ -57,6 +57,7 @@ describe("DecentralizedIdentity", function () {
 
     await decentralizedIdentity.connect(user).createIdentity(newName, newAge);
 
+    // Fix: Use 'hasValidIdentity' instead of 'decentralizedIdentity.hasValidIdentity'
     const hasValidIdentity = await decentralizedIdentity.hasValidIdentity(user.address);
     expect(hasValidIdentity).to.be.true;
 
