@@ -77,8 +77,9 @@ describe("DecentralizedIdentity", function () {
     await decentralizedIdentity.connect(owner).createIdentity(newName2, newAge2);
 
     const allIdentities = await decentralizedIdentity.getAllIdentities();
-    expect(allIdentities).to.have.lengthOf(2);
+    expect(allIdentities.length).to.equal(2);
     expect(allIdentities).to.include(user.address);
     expect(allIdentities).to.include(owner.address);
-  });
+});
+
 });
