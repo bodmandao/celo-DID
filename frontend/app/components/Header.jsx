@@ -1,5 +1,10 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import { ADDRESS, ABI } from '../../constants/index.js';
+import {ethers} from 'ethers'
+import { useEffect,useState } from 'react';
+import { NavItem } from 'react-bootstrap';
+
 
 const HeaderContainer = styled.header`
   background-color: #007bff;
@@ -29,6 +34,29 @@ const NavLink = styled.a`
 `;
 
 const Header = () => {
+  const [account, setAccount] = useState()
+
+  // metamask connection
+  let connection
+  if (typeof window !== 'undefined') {
+      connection = window.ethereum
+  }
+
+  // wallet connection
+  const connectWallet = async function () {
+    if (connection) {
+        const accounts = await connection.request({ method: 'eth_requestAccounts' })
+        setAccount(accounts[0])
+        console.log(accounts);
+    }
+    else {
+        console.log('please install metamask')
+    }
+  }
+
+  useEffect(()=>{
+    connectWallet()
+  })
   return (
     <HeaderContainer>
       <Nav>
@@ -43,6 +71,10 @@ const Header = () => {
           <Link href="/contact">
             <NavLink>Contact</NavLink>
           </Link>
+          <NavItem className='btn btn-success'>
+            
+          {account ? `${account.slice(0,6)}...${account.slice(account.length -4)}` : 'connect wallet'}
+          </NavItem>
         </div>
       </Nav>
     </HeaderContainer>

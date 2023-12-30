@@ -1,8 +1,10 @@
 "use client"
 
-import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import styled from 'styled-components';
+import React, { createContext, useEffect, useState } from 'react';
+import { ADDRESS, ABI } from '../../constants/index.js';
+import {ethers} from 'ethers'
 
 const StyledForm = styled(Form)`
   background-color: #f8f9fa;
@@ -12,6 +14,7 @@ const StyledForm = styled(Form)`
 `;
 
 export default function IdentityForm({ onSubmit, onVerify, onRevoke, onDelete, identity }) {
+
   const [name, setName] = useState(identity?.name || '');
   const [age, setAge] = useState(identity?.age || '');
 
@@ -20,6 +23,9 @@ export default function IdentityForm({ onSubmit, onVerify, onRevoke, onDelete, i
     onSubmit({ name, age });
   };
 
+  useEffect(()=>{
+    
+  })
   return (
     <StyledForm onSubmit={handleSubmit}>
       <Form.Group className="mb-3">
