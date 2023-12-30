@@ -11,9 +11,9 @@ const StyledForm = styled(Form)`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-export default function IdentityForm({ onSubmit }) {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
+export default function IdentityForm({ onSubmit, onVerify, onRevoke, onDelete, identity }) {
+  const [name, setName] = useState(identity?.name || '');
+  const [age, setAge] = useState(identity?.age || '');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,8 +45,22 @@ export default function IdentityForm({ onSubmit }) {
       </Form.Group>
 
       <Button variant="primary" type="submit">
-        Create Identity
+        {identity ? 'Update Identity' : 'Create Identity'}
       </Button>
+
+      {identity && (
+        <>
+          <Button variant="success" onClick={() => onVerify(identity.owner)}>
+            Verify Identity
+          </Button>
+          <Button variant="warning" onClick={() => onRevoke(identity.owner)}>
+            Revoke Identity
+          </Button>
+          <Button variant="danger" onClick={() => onDelete(identity.owner)}>
+            Delete Identity
+          </Button>
+        </>
+      )}
     </StyledForm>
   );
 }

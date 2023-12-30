@@ -32,7 +32,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <Nav>
-        <Logo>Your Logo</Logo>
+        <Logo>CELO DID</Logo>
         <div>
           <Link href="/">
             <NavLink>Home</NavLink>
