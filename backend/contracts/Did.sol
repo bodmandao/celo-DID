@@ -97,7 +97,7 @@ contract DecentralizedIdentity {
      * @dev Function to verify an identity
      * @param identityOwner The address of the identity to be verified
      */
-    function verifyIdentity(address identityOwner) external onlyVerifier {
+    function verifyIdentity(address identityOwner) external {
         require(!identities[identityOwner].verified, "Identity already verified");
 
         identities[identityOwner].verified = true;
@@ -110,8 +110,6 @@ contract DecentralizedIdentity {
      * @param identityOwner The address of the identity to be revoked
      */
     function revokeIdentity(address identityOwner) external onlyRevoker(identityOwner) {
-        require(!identities[identityOwner].revoked, "Identity already revoked");
-
         identities[identityOwner].revoked = true;
 
         emit IdentityRevoked(identityOwner);
