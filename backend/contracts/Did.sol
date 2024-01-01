@@ -9,6 +9,7 @@ contract DecentralizedIdentity {
         bool exists;
         bool verified;
         bool revoked;
+        address owner;
     }
 
     // Mapping to store identity details by address
@@ -72,7 +73,7 @@ contract DecentralizedIdentity {
         require(!identities[msg.sender].exists, "Identity already exists");
         require(bytes(name).length > 0, "Name cannot be empty");
 
-        identities[msg.sender] = Identity(name, age, true, false, false);
+        identities[msg.sender] = Identity(name, age, true, false, false,msg.sender);
         identitiesByIndex[identityCount + 1] = msg.sender;
         identityCount++;
 
