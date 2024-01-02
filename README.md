@@ -46,14 +46,15 @@ Visit the [Celo DID App](https://celo-did.vercel.app/) to explore the features.
 2. Install dependencies:
 
    ```bash
-   cd celo-DID/frotend
+   cd celo-DID/frontend
    npm install
    cd celo-DID/backend
-   npm install
+   yarn
    ```
 3. Run the application:
 
    ```bash
+   cd ../frontend
    npm run dev
    ```
 
