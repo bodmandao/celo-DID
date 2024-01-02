@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { ADDRESS, ABI } from '../../constants/index.js';
-import {ethers} from 'ethers'
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavItem } from 'react-bootstrap';
-
 
 const HeaderContainer = styled.header`
   background-color: #007bff;
@@ -34,46 +31,39 @@ const NavLink = styled.a`
 `;
 
 const Header = () => {
-  const [account, setAccount] = useState()
+  const [account, setAccount] = useState();
 
   // metamask connection
-  let connection
+  let connection;
   if (typeof window !== 'undefined') {
-      connection = window.ethereum
+    connection = window.ethereum;
   }
 
   // wallet connection
   const connectWallet = async function () {
     if (connection) {
-        const accounts = await connection.request({ method: 'eth_requestAccounts' })
-        setAccount(accounts[0])
-        console.log(accounts);
+      try {
+        const accounts = await connection.request({ method: 'eth_requestAccounts' });
+        setAccount(accounts[0]);
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
+      }
+    } else {
+      console.log('Please install metamask');
     }
-    else {
-        console.log('please install metamask')
-    }
-  }
+  };
 
-  useEffect(()=>{
-    connectWallet()
-  })
+  useEffect(() => {
+    connectWallet();
+  }, []); // Add an empty dependency array to run the effect only once
+
   return (
     <HeaderContainer>
       <Nav>
         <Logo>CELO DID</Logo>
         <div>
-          <Link href="/">
-            <NavLink>Home</NavLink>
-          </Link>
-          <Link href="/about">
-            <NavLink>About</NavLink>
-          </Link>
-          <Link href="/contact">
-            <NavLink>Contact</NavLink>
-          </Link>
           <NavItem className='btn btn-success'>
-            
-          {account ? `${account.slice(0,6)}...${account.slice(account.length -4)}` : 'connect wallet'}
+            {account ? `${account.slice(0, 6)}...${account.slice(account.length - 4)}` : 'Connect Wallet'}
           </NavItem>
         </div>
       </Nav>
