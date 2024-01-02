@@ -59,17 +59,17 @@ describe('DecentralizedIdentity Contract', function () {
   describe('verifyIdentity', function () {
     it('should verify the identity', async function () {
       await decentralizedIdentity.connect(owner).createIdentity('Alice', 25);
-      await decentralizedIdentity.connect(verifier).verifyIdentity(owner.address);
+      await decentralizedIdentity.connect(owner).verifyIdentity();
       const identity = await decentralizedIdentity.identities(owner.address);
       expect(identity.verified).to.be.true;
     });
 
     it('should not allow verifying already verified identity', async function () {
       await decentralizedIdentity.connect(owner).createIdentity('Alice', 25);
-      await decentralizedIdentity.connect(verifier).verifyIdentity(owner.address);
+      await decentralizedIdentity.connect(owner).verifyIdentity();
 
       // Attempt to verify again
-      await expect(decentralizedIdentity.connect(verifier).verifyIdentity(owner.address)).to.be.revertedWith(
+      await expect(decentralizedIdentity.connect(owner).verifyIdentity()).to.be.revertedWith(
         'Identity already verified'
       );
     });
@@ -78,28 +78,35 @@ describe('DecentralizedIdentity Contract', function () {
   describe('revokeIdentity', function () {
     it('should revoke the identity', async function () {
       await decentralizedIdentity.connect(owner).createIdentity('Alice', 25);
-      await decentralizedIdentity.connect(owner).verifyIdentity(owner.address);
-      await decentralizedIdentity.connect(owner).revokeIdentity(owner.address);
+      await decentralizedIdentity.connect(owner).verifyIdentity();
+
+      await decentralizedIdentity.connect(revoker).createIdentity('Bills', 31);
+      await decentralizedIdentity.connect(revoker).verifyIdentity();
+      await decentralizedIdentity.connect(revoker).revokeIdentity(owner.address);
       const identity = await decentralizedIdentity.identities(owner.address);
       expect(identity.revoked).to.be.true;
     });
 
     it('should not allow revoking non-verified identity', async function () {
-      await decentralizedIdentity.connect(owner).createIdentity('Alice', 25);
+      await decentralizedIdentity.connect(revoker).createIdentity('Alice', 25);
 
       // Attempt to revoke without verification
-      await expect(decentralizedIdentity.connect(owner).revokeIdentity(owner.address)).to.be.revertedWith(
+      await expect(decentralizedIdentity.connect(revoker).revokeIdentity(owner.address)).to.be.revertedWith(
         'Not a verified identity'
       );
     });
 
     it('should not allow revoking already revoked identity', async function () {
       await decentralizedIdentity.connect(owner).createIdentity('Alice', 25);
-      await decentralizedIdentity.connect(owner).verifyIdentity(owner.address);
-      await decentralizedIdentity.connect(owner).revokeIdentity(owner.address);
+      await decentralizedIdentity.connect(owner).verifyIdentity();
+      
+      
+      await decentralizedIdentity.connect(revoker).createIdentity('Bills', 31);
+      await decentralizedIdentity.connect(revoker).verifyIdentity();
+      await decentralizedIdentity.connect(revoker).revokeIdentity(owner.address);
 
       // Attempt to revoke again
-      await expect(decentralizedIdentity.connect(owner).revokeIdentity(owner.address)).to.be.revertedWith(
+      await expect(decentralizedIdentity.connect(revoker).revokeIdentity(owner.address)).to.be.revertedWith(
         "Identity not valid for revocation"
       );
     });
@@ -108,15 +115,15 @@ describe('DecentralizedIdentity Contract', function () {
   describe('deleteIdentity', function () {
     it('should delete the identity', async function () {
       await decentralizedIdentity.connect(owner).createIdentity('Alice', 25);
-      await decentralizedIdentity.connect(owner).verifyIdentity(owner.address);
-      await decentralizedIdentity.connect(owner).deleteIdentity(owner.address);
+      await decentralizedIdentity.connect(owner).verifyIdentity();
+      await decentralizedIdentity.connect(owner).deleteIdentity();
       const identity = await decentralizedIdentity.identities(owner.address);
       expect(identity.exists).to.be.false;
     });
 
     it('should not allow deleting non-existing identity', async function () {
       // Attempt to delete non-existing identity
-      await expect(decentralizedIdentity.connect(owner).deleteIdentity(owner.address)).to.be.revertedWith(
+      await expect(decentralizedIdentity.connect(owner).deleteIdentity()).to.be.revertedWith(
         'Not a verified identity'
       );
     });
@@ -125,7 +132,7 @@ describe('DecentralizedIdentity Contract', function () {
   describe('getAllIdentities', function () {
     it('should return all identities', async function () {
       await decentralizedIdentity.connect(owner).createIdentity('Alice', 25);
-      await decentralizedIdentity.connect(owner).verifyIdentity(owner.address);
+      await decentralizedIdentity.connect(owner).verifyIdentity();
 
       const allIdentities = await decentralizedIdentity.getAllIdentities();
 

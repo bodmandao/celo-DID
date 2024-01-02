@@ -96,19 +96,17 @@ contract DecentralizedIdentity {
 
     /**
      * @dev Function to verify an identity
-     * @param identityOwner The address of the identity to be verified
      */
-    function verifyIdentity(address identityOwner) external {
-        require(!identities[identityOwner].verified, "Identity already verified");
+    function verifyIdentity() external {
+        require(!identities[msg.sender].verified, "Identity already verified");
 
-        identities[identityOwner].verified = true;
+        identities[msg.sender].verified = true;
 
-        emit IdentityVerified(identityOwner);
+        emit IdentityVerified(msg.sender);
     }
 
     /**
      * @dev Function to revoke an identity
-     * @param identityOwner The address of the identity to be revoked
      */
     function revokeIdentity(address identityOwner) external onlyRevoker(identityOwner) {
         identities[identityOwner].revoked = true;
@@ -118,11 +116,10 @@ contract DecentralizedIdentity {
 
     /**
      * @dev Function to delete an identity
-     * @param identityOwner The address of the identity to be deleted
      */
-    function deleteIdentity(address identityOwner) external onlyDeleter(identityOwner) {
-        delete identities[identityOwner];
-        emit IdentityDeleted(identityOwner);
+    function deleteIdentity() external onlyDeleter(msg.sender) {
+        delete identities[msg.sender];
+        emit IdentityDeleted(msg.sender);
     }
 
     /**
