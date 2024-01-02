@@ -167,7 +167,7 @@ const handleUpdate = async (newIdentity) => {
       const signer = provider.getSigner();
       const contract = new ethers.Contract(ADDRESS, ABI, signer);
       const tx = await contract.revokeIdentity(account.toString())
-        await tx.wait(1)
+      await tx.wait(1)
   
       setTimeout(() => {
         setLoading(false);
@@ -198,7 +198,11 @@ const handleUpdate = async (newIdentity) => {
       setTimeout(() => {
         setLoading(false);
         toast.success('Identity deleted successfully!');
-      }, 2000);
+          
+            setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }, 3000);
      } catch (error) {
         if(error.message.includes('Not a verified identity')){
             toast.error('Your identity is not verified!');
