@@ -190,6 +190,10 @@ const handleUpdate = async (newIdentity) => {
           if(error.message.includes('Not a verified identity')){
               toast.error('Your identity is not verified!');
             }
+              
+          else if(error.message.includes('Identity not valid for revocation')){
+              toast.error('Identity not valid for revocation');
+            }
          else{
           toast.error('Unable to revoke identity!');
          }
@@ -215,6 +219,9 @@ const handleUpdate = async (newIdentity) => {
         if(error.message.includes('Not a verified identity')){
             toast.error('Your identity is not verified!');
         }
+            else if(error.message.includes('Identity not valid for deletion')){
+              toast.error('Identity not valid for deletion');
+            }
          else{
            toast.error('Unable to delete identity!');
          }
