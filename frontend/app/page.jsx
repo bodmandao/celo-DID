@@ -130,7 +130,8 @@ const handleUpdate = async (newIdentity) => {
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ADDRESS, ABI, signer);
-    await contract.updateIdentity(newIdentity.name, newIdentity.age);
+    const tx = await contract.updateIdentity(newIdentity.name, newIdentity.age);
+    await tx.wait(1)
     fetchIdentities();
 
     setTimeout(() => {
@@ -139,8 +140,8 @@ const handleUpdate = async (newIdentity) => {
 
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
-    }, 2000);
+      }, 2000);
+    }, 3000);
   } catch (error) {
     console.log(error);
     setLoading(false);
@@ -154,7 +155,8 @@ const handleUpdate = async (newIdentity) => {
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ADDRESS, ABI, signer);
-    await contract.verifyIdentity()
+    const tx = await contract.verifyIdentity()
+    await tx.wait(1)
 
     setTimeout(() => {
       setLoading(false);
@@ -162,8 +164,8 @@ const handleUpdate = async (newIdentity) => {
 
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
-    }, 2000);
+      }, 2000);
+    }, 3000);
    } catch (error) {
     console.log(error);
     toast.error('Unable to verify identity!');
@@ -176,7 +178,8 @@ const handleUpdate = async (newIdentity) => {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(ADDRESS, ABI, signer);
-      await contract.revokeIdentity(account.toString())
+      const tx = await contract.revokeIdentity(account.toString())
+        await tx.wait(1)
   
       setTimeout(() => {
         setLoading(false);
@@ -184,8 +187,8 @@ const handleUpdate = async (newIdentity) => {
   
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
-      }, 2000);
+        }, 2000);
+      }, 3000);
      } catch (error) {
           if(error.message.includes('Not a verified identity')){
               toast.error('Your identity is not verified!');
@@ -205,7 +208,8 @@ const handleUpdate = async (newIdentity) => {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(ADDRESS, ABI, signer);
-      await contract.deleteIdentity()
+      const tx = await contract.deleteIdentity()
+      await tx.wait(1)
   
       setTimeout(() => {
         setLoading(false);
