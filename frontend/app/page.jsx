@@ -104,11 +104,7 @@ export default function Home() {
       setTimeout(() => {
       setLoading(false);
       toast.success('Identity created successfully!');
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }, 3000);
+    }, 2000);
     } catch (error) {
          setLoading(false);
         toast.error('Unable to create identity!');
@@ -137,11 +133,7 @@ const handleUpdate = async (newIdentity) => {
     setTimeout(() => {
       setLoading(false);
       toast.success('Identity updated successfully!');
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }, 3000);
+    }, 2000);
   } catch (error) {
     console.log(error);
     setLoading(false);
@@ -161,11 +153,7 @@ const handleUpdate = async (newIdentity) => {
     setTimeout(() => {
       setLoading(false);
       toast.success('Identity verified successfully!');
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    }, 3000);
+    }, 2000);
    } catch (error) {
     console.log(error);
     toast.error('Unable to verify identity!');
@@ -184,11 +172,7 @@ const handleUpdate = async (newIdentity) => {
       setTimeout(() => {
         setLoading(false);
         toast.success('Identity revoked successfully!');
-  
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-      }, 3000);
+      }, 2000);
      } catch (error) {
           if(error.message.includes('Not a verified identity')){
               toast.error('Your identity is not verified!');
@@ -214,10 +198,6 @@ const handleUpdate = async (newIdentity) => {
       setTimeout(() => {
         setLoading(false);
         toast.success('Identity deleted successfully!');
-  
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
       }, 2000);
      } catch (error) {
         if(error.message.includes('Not a verified identity')){
