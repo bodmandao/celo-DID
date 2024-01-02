@@ -187,8 +187,12 @@ const handleUpdate = async (newIdentity) => {
         }, 1000);
       }, 2000);
      } catch (error) {
-      console.log(error);
-      toast.error('Unable to revoke identity!');
+          if(error.message.includes('Not a verified identity')){
+              toast.error('Your identity is not verified!');
+            }
+         else{
+          toast.error('Unable to revoke identity!');
+         }
      }
   };
 
@@ -208,8 +212,13 @@ const handleUpdate = async (newIdentity) => {
         }, 1000);
       }, 2000);
      } catch (error) {
-      console.log(error);
-      toast.error('Unable to delete identity!');
+        if(error.message.includes('Not a verified identity')){
+            toast.error('Your identity is not verified!');
+        }
+         else{
+           toast.error('Unable to delete identity!');
+         }
+         
      }
   };
 
