@@ -97,7 +97,8 @@ export default function Home() {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner()
       const contract = new ethers.Contract(ADDRESS,ABI,signer)
-      await contract.createIdentity(name,age)
+      const tx = await contract.createIdentity(name,age)
+      await tx.wait(1)
       fetchIdentities()
 
       setTimeout(() => {
@@ -106,8 +107,8 @@ export default function Home() {
 
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
-    }, 2000);
+      }, 2000);
+    }, 3000);
     } catch (error) {
          setLoading(false);
         toast.error('Unable to create identity!');
