@@ -209,7 +209,7 @@ const handleUpdate = async (newIdentity) => {
       }, 2000);
      } catch (error) {
       console.log(error);
-      toast.error('Unable to revoke identity!');
+      toast.error('Unable to delete identity!');
      }
   };
 
