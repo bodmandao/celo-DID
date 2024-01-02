@@ -43,8 +43,16 @@ Visit the [Celo DID App](https://celo-did.vercel.app/) to explore the features.
    ```bash
    git clone https://github.com/bodmandao/celo-did-app.git
     ```
-    cd celo-did-app
-    ```bash npm install 
-    ```bash 
-    npm run dev
+2. Install dependencies:
 
+   ```bash
+   cd celo-did-app
+   npm install
+   ```
+3. Run the application:
+
+   ```bash
+   npm run dev
+   ```
+
+   Open http://localhost:3000 in your browser.
