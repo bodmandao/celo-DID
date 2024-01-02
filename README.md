@@ -1,7 +1,7 @@
-# Celo DID App
+# Celo DID
 
 
-Celo DID App is a decentralized identity application built on the Celo blockchain. It allows users to manage their identities securely on the blockchain.
+Celo DID is a decentralized identity application built on the Celo blockchain. It allows users to manage their identities securely on the blockchain.
 
 ## Features
 
@@ -41,12 +41,14 @@ Visit the [Celo DID App](https://celo-did.vercel.app/) to explore the features.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/bodmandao/celo-did-app.git
+   git clone https://github.com/bodmandao/celo-DID.git
     ```
 2. Install dependencies:
 
    ```bash
-   cd celo-did-app
+   cd celo-DID/frotend
+   npm install
+   cd celo-DID/backend
    npm install
    ```
 3. Run the application:
