@@ -64,75 +64,88 @@ contract DecentralizedIdentity {
         _;
     }
 
+     modifier validAge(uint newAge) {
+    require(newAge > 0, "Age must be greater than zero");
+    _;
+}
+
     /**
      * @dev Function to create a new identity
      * @param name The name of the identity
      * @param age The age of the identity
      */
     function createIdentity(string memory name, uint age) external {
-        require(!identities[msg.sender].exists, "Identity already exists");
-        require(bytes(name).length > 0, "Name cannot be empty");
+    require(!identities[msg.sender].exists, "Identity already exists");
+    require(bytes(name).length > 0, "Name cannot be empty");
+    require(age > 0, "Age must be greater than zero");
 
-        identities[msg.sender] = Identity(name, age, true, false, false,msg.sender);
-        identitiesByIndex[identityCount + 1] = msg.sender;
-        identityCount++;
+    identities[msg.sender] = Identity(name, age, true, false, false, msg.sender);
+    identitiesByIndex[identityCount + 1] = msg.sender;
+    identityCount++;
 
-        emit IdentityCreated(msg.sender, name, age);
-    }
+    emit IdentityCreated(msg.sender, name, age);
+}
 
     /**
      * @dev Function to update an identity
      * @param newName The new name of the identity
      * @param newAge The new age of the identity
      */
-    function updateIdentity(string memory newName, uint newAge) external onlyIdentityOwner {
-        require(bytes(newName).length > 0, "Name cannot be empty");
 
-        identities[msg.sender].name = newName;
-        identities[msg.sender].age = newAge;
+function updateIdentity(string memory newName, uint newAge) external onlyIdentityOwner validAge(newAge) {
+    require(bytes(newName).length > 0, "Name cannot be empty");
 
-        emit IdentityUpdated(msg.sender, newName, newAge);
-    }
+    identities[msg.sender].name = newName;
+    identities[msg.sender].age = newAge;
+
+    emit IdentityUpdated(msg.sender, newName, newAge);
+}
+
+    
 
     /**
      * @dev Function to verify an identity
      */
-    function verifyIdentity() external {
-        require(!identities[msg.sender].verified, "Identity already verified");
+function verifyIdentity() external onlyIdentityOwner {
+    require(!identities[msg.sender].verified, "Identity already verified");
 
-        identities[msg.sender].verified = true;
+    identities[msg.sender].verified = true;
 
-        emit IdentityVerified(msg.sender);
-    }
+    emit IdentityVerified(msg.sender);
+}
+    
 
     /**
      * @dev Function to revoke an identity
      */
     function revokeIdentity(address identityOwner) external onlyRevoker(identityOwner) {
-        identities[identityOwner].revoked = true;
+    require(msg.sender != identityOwner, "Cannot revoke own identity");
 
-        emit IdentityRevoked(identityOwner);
-    }
+    identities[identityOwner].revoked = true;
+
+    emit IdentityRevoked(identityOwner);
+}
 
     /**
      * @dev Function to delete an identity
      */
     function deleteIdentity() external onlyDeleter(msg.sender) {
-        delete identities[msg.sender];
-        emit IdentityDeleted(msg.sender);
-    }
-
+    delete identities[msg.sender];
+    emit IdentityDeleted(msg.sender);
+}
     /**
      * @dev Function to get details of all identities
      * @return An array of Identity structs representing all identities
      */
     function getAllIdentities() external view returns (Identity[] memory) {
-        Identity[] memory allIdentities = new Identity[](identityCount);
+    uint maxIdentitiesToRetrieve = 100; // Adjust based on gas limits
+    uint count = maxIdentitiesToRetrieve < identityCount ? maxIdentitiesToRetrieve : identityCount;
+    Identity[] memory allIdentities = new Identity[](count);
 
-        for (uint i = 1; i <= identityCount; i++) {
-            address identityOwner = identitiesByIndex[i];
-            allIdentities[i - 1] = identities[identityOwner];
-        }
+    for (uint i = 1; i <= count; i++) {
+        address identityOwner = identitiesByIndex[i];
+        allIdentities[i - 1] = identities[identityOwner];
+    }
 
         return allIdentities;
     }
