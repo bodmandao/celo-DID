@@ -52,7 +52,7 @@ export default function IdentityList({ identities }) {
               </Button>
             </td>
             <td>{identity.verified ? 'Verified' : 'Unverified'}</td>
-            <td>{identity.revoked ? 'Revoked' : ''}</td>
+            <td>{identity.revoked ? 'true' : 'false'}</td>
           </tr>
         ))}
       </tbody>

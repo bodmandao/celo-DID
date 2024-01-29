@@ -61,6 +61,7 @@ export default function Home() {
       const signer = provider.getSigner()
       const contract = new ethers.Contract(ADDRESS,ABI,signer)
       const result = await contract.getAllIdentities() 
+      console.log(result,'result');
       const newIdentity = result.map(innerArray => {
         return {
           name: innerArray[0],
@@ -97,16 +98,17 @@ export default function Home() {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner()
       const contract = new ethers.Contract(ADDRESS,ABI,signer)
-      await contract.createIdentity(name,age)
+      const tx = await contract.createIdentity(name,age)
+      await tx.wait()
       fetchIdentities()
-
+      console.log(identities);
       setTimeout(() => {
       setLoading(false);
       toast.success('Identity created successfully!');
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     }, 2000);
     } catch (error) {
          setLoading(false);
@@ -129,16 +131,17 @@ const handleUpdate = async (newIdentity) => {
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ADDRESS, ABI, signer);
-    await contract.updateIdentity(newIdentity.name, newIdentity.age);
+    const tx = await contract.updateIdentity(newIdentity.name, newIdentity.age);
+    await tx.wait()
     fetchIdentities();
 
     setTimeout(() => {
       setLoading(false);
       toast.success('Identity updated successfully!');
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     }, 2000);
   } catch (error) {
     console.log(error);
@@ -153,15 +156,18 @@ const handleUpdate = async (newIdentity) => {
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(ADDRESS, ABI, signer);
-    await contract.verifyIdentity()
+    const tx = await contract.verifyIdentity()
+    await tx.wait()
+    fetchIdentities();
+
 
     setTimeout(() => {
       setLoading(false);
       toast.success('Identity verified successfully!');
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     }, 2000);
    } catch (error) {
     console.log(error);
@@ -175,15 +181,18 @@ const handleUpdate = async (newIdentity) => {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(ADDRESS, ABI, signer);
-      await contract.revokeIdentity(account.toString())
+      const tx = await contract.revokeIdentity(account.toString())
+      await tx.wait()
+     fetchIdentities();
+
   
       setTimeout(() => {
         setLoading(false);
         toast.success('Identity revoked successfully!');
   
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
       }, 2000);
      } catch (error) {
       console.log(error);
@@ -196,7 +205,9 @@ const handleUpdate = async (newIdentity) => {
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(ADDRESS, ABI, signer);
-      await contract.deleteIdentity()
+      const tx = await contract.deleteIdentity()
+      await tx.wait()
+      fetchIdentities();
   
       setTimeout(() => {
         setLoading(false);

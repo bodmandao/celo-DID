@@ -115,12 +115,37 @@ contract DecentralizedIdentity {
     }
 
     /**
-     * @dev Function to delete an identity
-     */
-    function deleteIdentity() external onlyDeleter(msg.sender) {
-        delete identities[msg.sender];
-        emit IdentityDeleted(msg.sender);
+ * @dev Function to delete an identity
+ */
+function deleteIdentity() external onlyDeleter(msg.sender) {
+    // Save the index of the identity to be deleted
+    uint indexToDelete = 0;
+    for (uint i = 1; i <= identityCount; i++) {
+        if (identitiesByIndex[i] == msg.sender) {
+            indexToDelete = i;
+            break;
+        }
     }
+
+    // Ensure the identity is found in the mapping
+    require(indexToDelete != 0, "Identity not found");
+
+    // Move the last element to the position of the element to be deleted
+    address lastIdentity = identitiesByIndex[identityCount];
+    identitiesByIndex[indexToDelete] = lastIdentity;
+
+    // Update the index of the moved identity
+    identitiesByIndex[identityCount] = address(0);
+
+    // Delete the identity
+    delete identities[msg.sender];
+
+    // Decrement the identityCount
+    identityCount--;
+
+    emit IdentityDeleted(msg.sender);
+}
+
 
     /**
      * @dev Function to get details of all identities
