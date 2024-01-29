@@ -32,6 +32,21 @@ Celo DID is a decentralized identity application built on the Celo blockchain. I
 - **Delete Identity Confirmation:** Users are asked to confirm before deleting an identity, preventing accidental deletions.
 
 
+
+### Identity Operations
+
+- **Create Identity**: Users can easily create new identities by providing their name and age.
+  
+- **Update Identity**: Modify your identity details, such as name and age, as needed.
+
+- **Verify Identity**: Securely verify your identity on the blockchain.
+
+- **Revoke Identity**: Revoke access to your identity when necessary, ensuring control over your information.
+
+- **Delete Identity**: Permanently delete your identity when it's no longer needed.
+
+
+
 ## Demo
 
 Visit the [Celo DID App](https://celo-did.vercel.app/) to explore the features.
